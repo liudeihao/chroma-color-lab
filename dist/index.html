@@ -1,4 +1,138 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CHROMA — Find your color.</title><link rel="stylesheet" href="style.css"></head>
-<body><header><a class="brand" href="./"><span class="brand-icon">✳</span> chroma<span class="brand-dot">®</span></a><nav><span class="nav-active">探索色彩</span><button id="savedBtn">收藏 <span id="savedCount">0</span></button></nav><span class="edition">A LITTLE COLOR. A LOT OF POSSIBILITY.</span></header>
-<main><section class="workspace"><div class="intro"><span class="eyebrow"><i></i> THE COLOR EXPLORER / 色彩探索器</span><h1>Find your <em>color.</em></h1><p>每一种颜色，都有一个值得被发现的名字。</p></div><div class="wheel-toolbar"><div class="segmented" id="models"><button class="active" data-model="HSV">HSV</button><button data-model="HSL">HSL</button><button data-model="HSI">HSI</button><button data-model="RYB">RYB</button></div><span id="modelHint">色相 · 饱和度 · 明度</span></div><div class="wheel-stage"><div class="outer-ring"></div><span class="degree d0">0°</span><span class="degree d90">90°</span><span class="degree d180">180°</span><span class="degree d270">270°</span><canvas id="wheel" width="800" height="800" role="slider" tabindex="0" aria-label="色环，方向键调整色相与饱和度"></canvas><div id="picker"></div><div class="wheel-caption"><span>DRAG TO EXPLORE</span><b>↗</b></div></div><div class="range-row"><span id="rangeLabel">明度</span><input id="level" type="range" min="1" max="100" value="85" aria-label="明度"><span id="levelValue">85%</span></div><div class="color-console"><span id="currentSwatch"></span><div class="code-input"><label for="colorInput">COLOR VALUE</label><input id="colorInput" value="#A8D991" spellcheck="false" aria-label="颜色值"></div><button class="copy-main" id="copyCurrent">复制 HEX <span>↗</span></button><button class="icon-button" id="favorite" aria-label="收藏当前颜色">☆</button></div><div id="inputError" role="alert"></div><div class="formats" id="formats"></div><p class="input-help">支持 HEX / RGB / HSL / HSV / HSI / OKLCH 输入 · 回车应用</p></section><aside><div class="results-heading"><div><span class="eyebrow">A NAME FOR YOUR SHADE</span><h2>与它相近的颜色<span>↘</span></h2></div><span class="count">05</span></div><div class="filter-row"><select id="library" aria-label="色名库"><option value="all">所有色名库</option><option value="css">CSS 标准色</option><option value="traditional">中国传统色 · 精选</option></select><span>按感知色差排序</span></div><div id="results"></div><div class="aside-note"><span>✳</span><p>相似，却各有性格。<br><small>点击色卡，发现颜色背后的细节。</small></p></div></aside></main><footer><span>MADE FOR CURIOUS EYES.</span><span>在色彩之间，找到你的表达。</span><span id="status">● &nbsp; sRGB COLOR SPACE</span></footer><div id="toast" role="status"></div><dialog id="detail"><button id="closeDetail" class="close" aria-label="关闭详情">×</button><div id="detailContent"></div></dialog><dialog id="saved"><button id="closeSaved" class="close" aria-label="关闭收藏">×</button><span class="eyebrow">YOUR COLOR COLLECTION</span><h2>收藏的颜色</h2><div id="savedList"></div></dialog><script src="app.js"></script></body></html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="CHROMA：为设计师打造的色环探索工具，支持多种颜色格式、近似中英文色名、颜色档案与一键复制。"
+    />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CHROMA — Find your color.</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="./"
+        ><span class="brand-icon">✳</span> chroma<span class="brand-dot"
+          >®</span
+        ></a
+      >
+      <nav>
+        <span class="nav-active">探索色彩</span
+        ><button id="savedBtn">收藏 <span id="savedCount">0</span></button>
+      </nav>
+      <span class="edition">A LITTLE COLOR. A LOT OF POSSIBILITY.</span>
+    </header>
+    <main>
+      <section class="workspace">
+        <div class="intro">
+          <span class="eyebrow"><i></i> THE COLOR EXPLORER / 色彩探索器</span>
+          <h1>Find your <em>color.</em></h1>
+          <p>每一种颜色，都有一个值得被发现的名字。</p>
+        </div>
+        <div class="wheel-toolbar">
+          <div class="segmented" id="models">
+            <button class="active" data-model="HSV">HSV</button
+            ><button data-model="HSL">HSL</button
+            ><button data-model="HSI">HSI</button
+            ><button data-model="RYB">RYB</button>
+          </div>
+          <span id="modelHint">色相 · 饱和度 · 明度</span>
+        </div>
+        <div class="wheel-stage">
+          <div class="outer-ring"></div>
+          <span class="degree d0">0°</span><span class="degree d90">90°</span
+          ><span class="degree d180">180°</span
+          ><span class="degree d270">270°</span
+          ><canvas
+            id="wheel"
+            width="800"
+            height="800"
+            role="slider"
+            aria-valuemin="0"
+            aria-valuemax="359"
+            aria-valuenow="0"
+            tabindex="0"
+            aria-label="色环，方向键调整色相与饱和度"
+          ></canvas>
+          <div id="picker"></div>
+          <div class="wheel-caption"><span>DRAG TO EXPLORE</span><b>↗</b></div>
+        </div>
+        <div class="range-row">
+          <span id="rangeLabel">明度</span
+          ><input
+            id="level"
+            type="range"
+            min="0"
+            max="100"
+            value="85"
+            aria-label="明度"
+          /><span id="levelValue">85%</span>
+        </div>
+        <div class="color-console">
+          <span id="currentSwatch"></span>
+          <div class="code-input">
+            <label for="colorInput">COLOR VALUE</label
+            ><input
+              id="colorInput"
+              value="#A8D991"
+              spellcheck="false"
+              aria-label="颜色值"
+            />
+          </div>
+          <button class="copy-main" id="copyCurrent">
+            复制 HEX <span>↗</span></button
+          ><button class="icon-button" id="favorite" aria-label="收藏当前颜色">
+            ☆
+          </button>
+        </div>
+        <div id="inputError" role="alert"></div>
+        <div class="formats" id="formats"></div>
+        <p class="input-help">
+          支持 HEX / RGB / HSL / HSV / HSI / OKLCH 输入 · 回车应用
+        </p>
+      </section>
+      <aside>
+        <div class="results-heading">
+          <div>
+            <span class="eyebrow">A NAME FOR YOUR SHADE</span>
+            <h2>与它相近的颜色<span>↘</span></h2>
+          </div>
+          <span class="count">05</span>
+        </div>
+        <div class="filter-row">
+          <select id="library" aria-label="色名库">
+            <option value="all">所有色名库</option>
+            <option value="css">CSS 标准色</option>
+            <option value="traditional">中国传统色 · 精选</option></select
+          ><span>按感知色差排序</span>
+        </div>
+        <div id="results"></div>
+        <div class="aside-note">
+          <span>✳</span>
+          <p>
+            相似，却各有性格。<br /><small
+              >点击色卡，发现颜色背后的细节。</small
+            >
+          </p>
+        </div>
+      </aside>
+    </main>
+    <footer>
+      <span>MADE FOR CURIOUS EYES.</span><span>在色彩之间，找到你的表达。</span
+      ><span id="status">● &nbsp; sRGB COLOR SPACE</span>
+    </footer>
+    <div id="toast" role="status"></div>
+    <dialog id="detail">
+      <button id="closeDetail" class="close" aria-label="关闭详情">×</button>
+      <div id="detailContent"></div>
+    </dialog>
+    <dialog id="saved">
+      <button id="closeSaved" class="close" aria-label="关闭收藏">×</button
+      ><span class="eyebrow">YOUR COLOR COLLECTION</span>
+      <h2>收藏的颜色</h2>
+      <div id="savedList"></div>
+    </dialog>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

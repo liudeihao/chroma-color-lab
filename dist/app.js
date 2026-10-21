@@ -1,42 +1,412 @@
-const $=s=>document.querySelector(s), clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
-const cssData=`AliceBlue:f0f8ff AntiqueWhite:faebd7 Aqua:00ffff Aquamarine:7fffd4 Azure:f0ffff Beige:f5f5dc Bisque:ffe4c4 Black:000000 BlanchedAlmond:ffebcd Blue:0000ff BlueViolet:8a2be2 Brown:a52a2a BurlyWood:deb887 CadetBlue:5f9ea0 Chartreuse:7fff00 Chocolate:d2691e Coral:ff7f50 CornflowerBlue:6495ed Cornsilk:fff8dc Crimson:dc143c Cyan:00ffff DarkBlue:00008b DarkCyan:008b8b DarkGoldenRod:b8860b DarkGray:a9a9a9 DarkGreen:006400 DarkKhaki:bdb76b DarkMagenta:8b008b DarkOliveGreen:556b2f DarkOrange:ff8c00 DarkOrchid:9932cc DarkRed:8b0000 DarkSalmon:e9967a DarkSeaGreen:8fbc8f DarkSlateBlue:483d8b DarkSlateGray:2f4f4f DarkTurquoise:00ced1 DarkViolet:9400d3 DeepPink:ff1493 DeepSkyBlue:00bfff DimGray:696969 DodgerBlue:1e90ff FireBrick:b22222 FloralWhite:fffaf0 ForestGreen:228b22 Fuchsia:ff00ff Gainsboro:dcdcdc GhostWhite:f8f8ff Gold:ffd700 GoldenRod:daa520 Gray:808080 Green:008000 GreenYellow:adff2f HoneyDew:f0fff0 HotPink:ff69b4 IndianRed:cd5c5c Indigo:4b0082 Ivory:fffff0 Khaki:f0e68c Lavender:e6e6fa LavenderBlush:fff0f5 LawnGreen:7cfc00 LemonChiffon:fffacd LightBlue:add8e6 LightCoral:f08080 LightCyan:e0ffff LightGoldenRodYellow:fafad2 LightGray:d3d3d3 LightGreen:90ee90 LightPink:ffb6c1 LightSalmon:ffa07a LightSeaGreen:20b2aa LightSkyBlue:87cefa LightSlateGray:778899 LightSteelBlue:b0c4de LightYellow:ffffe0 Lime:00ff00 LimeGreen:32cd32 Linen:faf0e6 Magenta:ff00ff Maroon:800000 MediumAquaMarine:66cdaa MediumBlue:0000cd MediumOrchid:ba55d3 MediumPurple:9370db MediumSeaGreen:3cb371 MediumSlateBlue:7b68ee MediumSpringGreen:00fa9a MediumTurquoise:48d1cc MediumVioletRed:c71585 MidnightBlue:191970 MintCream:f5fffa MistyRose:ffe4e1 Moccasin:ffe4b5 NavajoWhite:ffdead Navy:000080 OldLace:fdf5e6 Olive:808000 OliveDrab:6b8e23 Orange:ffa500 OrangeRed:ff4500 Orchid:da70d6 PaleGoldenRod:eee8aa PaleGreen:98fb98 PaleTurquoise:afeeee PaleVioletRed:db7093 PapayaWhip:ffefd5 PeachPuff:ffdab9 Peru:cd853f Pink:ffc0cb Plum:dda0dd PowderBlue:b0e0e6 Purple:800080 RebeccaPurple:663399 Red:ff0000 RosyBrown:bc8f8f RoyalBlue:4169e1 SaddleBrown:8b4513 Salmon:fa8072 SandyBrown:f4a460 SeaGreen:2e8b57 SeaShell:fff5ee Sienna:a0522d Silver:c0c0c0 SkyBlue:87ceeb SlateBlue:6a5acd SlateGray:708090 Snow:fffafa SpringGreen:00ff7f SteelBlue:4682b4 Tan:d2b48c Teal:008080 Thistle:d8bfd8 Tomato:ff6347 Turquoise:40e0d0 Violet:ee82ee Wheat:f5deb3 White:ffffff WhiteSmoke:f5f5f5 Yellow:ffff00 YellowGreen:9acd32`;
-const cn={AliceBlue:'爱丽丝蓝',Aquamarine:'碧绿色',Azure:'蔚蓝色',Beige:'米色',Black:'黑色',Blue:'蓝色',BlueViolet:'蓝紫色',Brown:'棕色',CadetBlue:'军校蓝',Chartreuse:'查特酒绿',Chocolate:'巧克力色',Coral:'珊瑚色',CornflowerBlue:'矢车菊蓝',Crimson:'绯红色',DarkGreen:'深绿色',DarkSeaGreen:'深海绿',ForestGreen:'森林绿',Gold:'金色',Green:'绿色',HoneyDew:'蜜瓜色',Indigo:'靛蓝色',Ivory:'象牙白',Khaki:'卡其色',Lavender:'薰衣草紫',LightBlue:'浅蓝色',LightGreen:'浅绿色',LightPink:'浅粉色',Lime:'青柠绿',LimeGreen:'青柠绿色',MintCream:'薄荷奶油色',MistyRose:'雾玫瑰色',Navy:'海军蓝',Olive:'橄榄色',Orange:'橙色',Orchid:'兰花紫',PaleGreen:'淡绿色',PeachPuff:'桃色',Pink:'粉色',Plum:'李子紫',PowderBlue:'粉蓝色',Purple:'紫色',Red:'红色',Salmon:'鲑鱼色',SeaGreen:'海绿色',SkyBlue:'天空蓝',Snow:'雪白',SteelBlue:'钢蓝色',Teal:'水鸭色',Tomato:'番茄红',Turquoise:'绿松石色',Violet:'紫罗兰色',Wheat:'小麦色',White:'白色',Yellow:'黄色',YellowGreen:'黄绿色'};
-function fromHex(s){s=s.replace('#','');if(s.length===3)s=s.split('').map(x=>x+x).join('');return [0,2,4].map(i=>parseInt(s.slice(i,i+2),16)/255)}
-function hex(rgb){return '#'+rgb.map(v=>Math.round(clamp(v)*255).toString(16).padStart(2,'0')).join('').toUpperCase()}
-function hsv(h,s,v){h=((h%360)+360)%360;const c=v*s,x=c*(1-Math.abs(h/60%2-1)),m=v-c;return (h<60?[c,x,0]:h<120?[x,c,0]:h<180?[0,c,x]:h<240?[0,x,c]:h<300?[x,0,c]:[c,0,x]).map(x=>x+m)}
-function hsl(h,s,l){const v=l+s*Math.min(l,1-l);return hsv(h,v?2*(1-l/v):0,v)}
-function hsi(h,s,i){h=((h%360)+360)%360;let rgb;const x=(h%120)*Math.PI/180,a=i*(1-s),b=i*(1+s*Math.cos(x)/Math.cos(Math.PI/3-x)),c=3*i-a-b;rgb=h<120?[b,c,a]:h<240?[a,b,c]:[c,a,b];return rgb}
-function rgbHsv([r,g,b]){let max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min,h=d?max===r?((g-b)/d%6)*60:max===g?((b-r)/d+2)*60:((r-g)/d+4)*60:0;return [(h+360)%360,max?d/max:0,max]}
-function rgbHsl(rgb){const [h,s,v]=rgbHsv(rgb),l=v*(1-s/2);return[h,l===0||l===1?0:(v-l)/Math.min(l,1-l),l]}
-function rgbHsi([r,g,b]){let i=(r+g+b)/3,den=Math.sqrt((r-g)**2+(r-b)*(g-b)),h=den?Math.acos(clamp(((r-g)+(r-b))/2/den,-1,1))*180/Math.PI:0;return[b>g?360-h:h,i?1-Math.min(r,g,b)/i:0,i]}
-function lab(rgb){let [r,g,b]=rgb.map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);let l=Math.cbrt(.4122214708*r+.5363325363*g+.0514459929*b),m=Math.cbrt(.2119034982*r+.6806995451*g+.1073969566*b),s=Math.cbrt(.0883024619*r+.2817188376*g+.6299787005*b);return[.2104542553*l+.793617785*m-.0040720468*s,1.9779984951*l-2.428592205*m+.4505937099*s,.0259040371*l+.7827717662*m-.808675766*s]}
-function fromLab([L,a,b]){let l=(L+.3963377774*a+.2158037573*b)**3,m=(L-.1055613458*a-.0638541728*b)**3,s=(L-.0894841775*a-1.291485548*b)**3;return [4.0767416621*l-3.3077115913*m+.2309699292*s,-1.2684380046*l+2.6097574011*m-.3413193965*s,-.0041960863*l-.7034186147*m+1.707614701*s].map(v=>v<=.0031308?12.92*v:1.055*Math.pow(v,1/2.4)-.055)}
-let database=cssData.split(' ').map(v=>{let [name,col]=v.split(':');return{name:name.replace(/([a-z])([A-Z])/g,'$1 $2'),key:name,cn:cn[name]||'',hex:'#'+col.toUpperCase(),lib:'css'}});
-// Traditional names use the published Chinese Colors digital palette; English labels are translations.
-database.push(...[['天青','Sky Cyan','2EC3E7'],['竹青','Bamboo Green','789262'],['豆绿','Bean Green','9ED048'],['柳绿','Willow Green','AFDD22'],['松花绿','Pine Pollen Green','BCE672'],['葱绿','Scallion Green','9ED900'],['水绿','Water Green','D4F2E7'],['碧玉','Jade','2ADD9C'],['月白','Moon White','D6ECF0'],['藕荷','Lotus Mauve','E4C6D0'],['胭脂','Rouge','9D2933'],['朱砂','Cinnabar','FF461F'],['鹅黄','Gosling Yellow','FFF143'],['秋香色','Autumn Fragrance','D9B611']].map(([cn,name,col])=>({name,cn,hex:'#'+col,lib:'traditional'})));
-database.forEach(c=>{c.rgb=fromHex(c.hex);c.lab=lab(c.rgb)});
-let state={rgb:fromHex('#A8D991'),model:'HSV',h:100,s:.33,v:.85},results=[],timer,drag=false,raf,renderTimer;
-let favorites=[];try{favorites=JSON.parse(localStorage.getItem('chroma-colors')||'[]').filter(x=>/^#[0-9A-F]{6}$/i.test(x))}catch{}
-function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');clearTimeout(timer);timer=setTimeout(()=>$('#toast').classList.remove('show'),1700)}
-async function copy(t){try{await navigator.clipboard.writeText(t);toast('已复制 '+t)}catch{let el=document.createElement('textarea');el.value=t;document.body.append(el);el.select();let ok=document.execCommand('copy');el.remove();toast(ok?'已复制 '+t:'复制失败，请从输入框手动复制')}}
-function ryb(h){const stops=[[0,0],[60,35],[120,60],[180,120],[240,240],[300,290],[360,360]];for(let i=1;i<stops.length;i++)if(h<=stops[i][0])return stops[i-1][1]+(h-stops[i-1][0])/(stops[i][0]-stops[i-1][0])*(stops[i][1]-stops[i-1][1]);return h}
-function unryb(h){let best=0,dist=1e9;for(let i=0;i<360;i++){let d=Math.abs(ryb(i)-h);if(d<dist){dist=d;best=i}}return best}
-function wheelRgb(h,s,v){return state.model==='HSL'?hsl(h,s,v):state.model==='HSI'?hsi(h,s,v):hsv(state.model==='RYB'?ryb(h):h,s,v)}
-function syncCoordinates(){let x=state.model==='HSL'?rgbHsl(state.rgb):state.model==='HSI'?rgbHsi(state.rgb):rgbHsv(state.rgb);[state.h,state.s,state.v]=x;if(state.model==='RYB')state.h=unryb(state.h)}
-function drawWheel(){const cv=$('#wheel'),ctx=cv.getContext('2d'),n=600;cv.width=cv.height=n;let img=ctx.createImageData(n,n),v=state.v;for(let y=0;y<n;y++)for(let x=0;x<n;x++){let dx=(x-n/2)/(n/2),dy=(n/2-y)/(n/2),s=Math.hypot(dx,dy);if(s>1)continue;let h=(Math.atan2(dy,dx)*180/Math.PI+360)%360,rgb=wheelRgb(h,s,v),i=(y*n+x)*4;for(let j=0;j<3;j++)img.data[i+j]=clamp(rgb[j])*255;img.data[i+3]=255}ctx.putImageData(img,0,0)}
-function textColor(rgb){return lab(rgb)[0]>.7?'#263227':'#ffffff'}
-function values(rgb){let [h,s,l]=rgbHsl(rgb),[hh,ss,v]=rgbHsv(rgb),[hi,si,ii]=rgbHsi(rgb),[L,a,b]=lab(rgb),C=Math.hypot(a,b),H=(Math.atan2(b,a)*180/Math.PI+360)%360;return{HEX:hex(rgb),RGB:`rgb(${rgb.map(x=>Math.round(clamp(x)*255)).join(', ')})`,HSL:`hsl(${Math.round(h)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`,HSV:`hsv(${Math.round(hh)}, ${Math.round(ss*100)}%, ${Math.round(v*100)}%)`,HSI:`hsi(${Math.round(hi)}, ${Math.round(si*100)}%, ${Math.round(ii*100)}%)`,OKLCH:`oklch(${(L*100).toFixed(1)}% ${C.toFixed(3)} ${H.toFixed(1)})`}}
-function update(animate=false){let color=hex(state.rgb);$('#colorInput').value=color;$('#currentSwatch').style.background=color;document.documentElement.style.setProperty('--accent',color);$('#picker').style.left=(50+43*state.s*Math.cos(state.h*Math.PI/180))+'%';$('#picker').style.top=(50-43*state.s*Math.sin(state.h*Math.PI/180))+'%';$('#picker').style.background=color;$('#level').value=state.v*100;$('#levelValue').textContent=Math.round(state.v*100)+'%';$('#level').style.background=`linear-gradient(90deg,#181d19,${hex(wheelRgb(state.h,state.s,1))})`;$('#rangeLabel').textContent=state.model==='HSL'?'亮度':state.model==='HSI'?'强度':'明度';$('#favorite').textContent=favorites.includes(color)?'★':'☆';$('#savedCount').textContent=favorites.length;let vals=values(state.rgb);$('#formats').replaceChildren(...['RGB','HSL','HSI','OKLCH'].map(k=>{let b=document.createElement('button');b.textContent=vals[k];b.title='点击复制 '+k;b.onclick=()=>copy(vals[k]);return b}));clearTimeout(renderTimer);renderTimer=setTimeout(()=>renderResults(animate),drag?110:0)}
-function renderResults(animate=true){let target=lab(state.rgb),lib=$('#library').value,seen=new Set;results=database.filter(c=>lib==='all'||c.lib===lib).map(c=>({...c,d:Math.hypot(...c.lab.map((x,i)=>x-target[i]))})).sort((a,b)=>a.d-b.d).filter(c=>{if(seen.has(c.hex))return false;seen.add(c.hex);return true}).slice(0,5);$('#results').innerHTML=results.map((c,i)=>`<article class="color-card" style="--i:${i};${animate?'':'animation:none'}"><div class="card-swatch" style="background:${c.hex};color:${textColor(c.rgb)}"><span class="card-index">0${i+1}</span><button class="card-copy" data-copy="${i}" aria-label="复制 ${c.hex}">${c.hex} ⧉</button></div><button data-open="${i}" class="card-info" style="border:0;background:white;width:100%;text-align:left;cursor:pointer"><div><div class="card-title">${c.name}${c.cn?`<small>${c.cn}</small>`:''}</div><div class="card-meta">${c.hex} &nbsp; · &nbsp; ΔE OK ${(c.d*100).toFixed(2)} &nbsp; · &nbsp; ${c.lib==='css'?'CSS COLOR':'中国传统色'}</div></div><span class="card-arrow">↗</span></button></article>`).join('');document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(results[b.dataset.copy].hex));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openDetail(results[b.dataset.open]));document.querySelectorAll('.card-swatch').forEach((el,i)=>el.onclick=e=>{if(!e.target.closest('button'))openDetail(results[i])})}
-function openDetail(c){let vals=values(c.rgb),v=values(state.rgb);$('#detailContent').innerHTML=`<div class="detail-hero" style="background:${c.hex};color:${textColor(c.rgb)}">${c.hex}</div><span class="eyebrow">COLOR NOTES / 色彩档案</span><h2 class="detail-name">${c.name}</h2><div class="detail-cn">${c.cn||'暂无中文名'}</div><p>${c.lib==='css'?'CSS 标准命名色。中文名称为便于理解的参考译名，并非 CSS 标准定义。':'中国传统色精选。英文为参考译名，传统色在不同资料与媒介中的色值可能不同。'}</p><div class="detail-values">${Object.entries(vals).map(([k,v])=>`<button data-value="${k}">${k} &nbsp; ${v} &nbsp; ⧉</button>`).join('')}</div><span class="eyebrow">YOUR COLOR / NAMED COLOR</span><div class="compare" style="margin-top:10px"><span style="background:${v.HEX};color:${textColor(state.rgb)}">原色 ${v.HEX}</span><span style="background:${c.hex};color:${textColor(c.rgb)}">${c.hex}</span></div><p>感知色差 ΔE OK：${(c.d*100).toFixed(2)}（Oklab 欧氏距离 × 100，越小越接近）。${Math.abs(c.lab[0]-lab(state.rgb)[0])<.01?'两种颜色明度十分接近。':c.lab[0]>lab(state.rgb)[0]?'这个命名色比你选的颜色更明亮。':'这个命名色比你选的颜色更深。'}<br>色名匹配基于当前色名库；没有完全对应时，展示最接近的候选。</p><a class="source-link" href="${c.lib==='css'?'https://www.w3.org/TR/css-color-4/#named-colors':'https://zhongguose.com/'}" target="_blank" rel="noopener">查看色名来源 ↗</a><button id="useColor" class="copy-main" style="float:right">以此色继续探索 ↗</button>`;$('#detail').showModal();document.querySelectorAll('[data-value]').forEach(b=>b.onclick=()=>copy(vals[b.dataset.value]));$('#useColor').onclick=()=>{state.rgb=c.rgb.slice();syncCoordinates();drawWheel();update(true);$('#detail').close()}}
-function pick(e){const r=$('#wheel').getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(r.top+r.height/2-e.clientY)/(r.height/2);state.h=(Math.atan2(y,x)*180/Math.PI+360)%360;state.s=clamp(Math.hypot(x,y));let raw=wheelRgb(state.h,state.s,state.v);state.rgb=raw.map(v=>clamp(v));$('#status').textContent=raw.some(v=>v<0||v>1)?'● HSI 超出 sRGB，预览已裁切':'● sRGB COLOR SPACE';update(false)}
-$('#wheel').onpointerdown=e=>{drag=true;$('#wheel').setPointerCapture(e.pointerId);pick(e)};$('#wheel').onpointermove=e=>{if(drag){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>pick(e))}};$('#wheel').onpointerup=e=>{cancelAnimationFrame(raf);pick(e);drag=false;update(true)};$('#wheel').onpointercancel=()=>{drag=false};$('#wheel').onkeydown=e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();state.h=(state.h+(e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0)+360)%360;state.s=clamp(state.s+(e.key==='ArrowUp'?.01:e.key==='ArrowDown'?-.01:0));state.rgb=wheelRgb(state.h,state.s,state.v).map(v=>clamp(v));update(false)};
-$('#level').oninput=()=>{state.v=+$('#level').value/100;state.rgb=wheelRgb(state.h,state.s,state.v).map(v=>clamp(v));cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{drawWheel();update(false)})};$('#level').onchange=()=>update(true);
-document.querySelectorAll('[data-model]').forEach(b=>b.onclick=()=>{state.model=b.dataset.model;document.querySelectorAll('[data-model]').forEach(x=>x.classList.toggle('active',x===b));$('#modelHint').textContent={HSV:'色相 · 饱和度 · 明度',HSL:'色相 · 饱和度 · 亮度',HSI:'色相 · 饱和度 · 强度 · 超色域会裁切',RYB:'艺术家色环 · 红黄蓝色相映射'}[state.model];syncCoordinates();drawWheel();update(false)});
-function parseColor(text){let s=text.trim();if(/^#?([\da-f]{3}|[\da-f]{6})$/i.test(s))return fromHex(s);let named=database.find(c=>c.key?.toLowerCase()===s.toLowerCase()||c.cn===s);if(named)return named.rgb.slice();let m=s.match(/^(rgb|hsl|hsv|hsi|oklch)\((.*)\)$/i);if(!m)throw Error('请输入有效的 HEX、RGB、HSL、HSV、HSI 或 OKLCH。');let parts=m[2].replace(/,/g,' ').trim().split(/\s+/);if(parts.length!==3||parts.some(p=>!/^[-+]?(?:\d*\.)?\d+(?:%|deg)?$/.test(p)))throw Error('需要三个有效数值，不支持透明度。');let mode=m[1].toLowerCase(),nums=parts.map(parseFloat);let rgb;if(mode==='rgb'){if(nums.some((v,i)=>v<0||v>(parts[i].endsWith('%')?100:255)))throw Error('RGB 数值范围为 0–255 或 0–100%。');rgb=nums.map((v,i)=>v/(parts[i].endsWith('%')?100:255))}else if(mode==='oklch'){let [l,c,h]=nums;l/=parts[0].endsWith('%')?100:1;if(l<0||l>1||c<0)throw Error('请检查 OKLCH 明度和色度范围。');rgb=fromLab([l,c*Math.cos(h*Math.PI/180),c*Math.sin(h*Math.PI/180)])}else{let [h,s,l]=nums;s/=100;l/=100;if(s<0||s>1||l<0||l>1)throw Error('饱和度及明度范围为 0–100%。');rgb=({hsl,hsv,hsi}[mode])(h,s,l)}if(rgb.some(v=>!Number.isFinite(v)))throw Error('无法转换这个颜色。');if(rgb.some(v=>v<-.0001||v>1.0001))toast('超出 sRGB 色域，已裁切为可显示颜色');return rgb.map(v=>clamp(v))}
-$('#colorInput').onkeydown=e=>{if(e.key==='Enter'){try{state.rgb=parseColor(e.target.value);$('#inputError').textContent='';syncCoordinates();drawWheel();update(true)}catch(err){$('#inputError').textContent=err.message}}};$('#copyCurrent').onclick=()=>copy(hex(state.rgb));$('#library').onchange=()=>renderResults(true);
-function saveFavorites(){try{localStorage.setItem('chroma-colors',JSON.stringify(favorites))}catch{toast('浏览器无法持久保存，收藏仅本次有效')}$('#savedCount').textContent=favorites.length}
-$('#favorite').onclick=()=>{let c=hex(state.rgb);if(favorites.includes(c)){favorites=favorites.filter(x=>x!==c);toast('已取消收藏')}else{favorites.push(c);toast('已收藏 '+c)}saveFavorites();update(false)};
-function renderSaved(){$('#savedList').replaceChildren();if(!favorites.length){$('#savedList').innerHTML='<p>还没有收藏。点击色号右侧的 ☆，留下喜欢的颜色。</p>';return}favorites.forEach(c=>{let row=document.createElement('div');row.className='saved-item';let sw=document.createElement('i');sw.style.background=c;let b=document.createElement('button');b.textContent=c+' ↗';b.onclick=()=>{state.rgb=fromHex(c);syncCoordinates();drawWheel();update(true);$('#saved').close()};let cp=document.createElement('button');cp.textContent='复制';cp.onclick=()=>copy(c);let rm=document.createElement('button');rm.textContent='移除';rm.className='remove';rm.onclick=()=>{favorites=favorites.filter(x=>x!==c);saveFavorites();renderSaved();update(false)};row.append(sw,b,cp,rm);$('#savedList').append(row)})}
-$('#savedBtn').onclick=()=>{renderSaved();$('#saved').showModal()};$('#closeSaved').onclick=()=>$('#saved').close();$('#closeDetail').onclick=()=>$('#detail').close();document.querySelectorAll('dialog').forEach(d=>d.onclick=e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}});
-syncCoordinates();drawWheel();update(true);
+import {
+  clamp,
+  fromHex,
+  hex,
+  hsv,
+  hsl,
+  hsi,
+  rgbHsv,
+  rgbHsl,
+  rgbHsi,
+  lab,
+  fromLab,
+  database,
+  values,
+  parseColor,
+} from "./colors.js";
+const $ = (s) => document.querySelector(s);
+let lastResultRender = 0;
+let state = { rgb: fromHex("#A8D991"), model: "HSV", h: 100, s: 0.33, v: 0.85 },
+  results = [],
+  timer,
+  drag = false,
+  raf,
+  renderTimer;
+let favorites = [];
+try {
+  favorites = JSON.parse(localStorage.getItem("chroma-colors") || "[]").filter(
+    (x) => /^#[0-9A-F]{6}$/i.test(x),
+  );
+} catch {}
+function toast(t) {
+  $("#toast").textContent = t;
+  $("#toast").classList.add("show");
+  clearTimeout(timer);
+  timer = setTimeout(() => $("#toast").classList.remove("show"), 1700);
+}
+async function copy(t) {
+  try {
+    await navigator.clipboard.writeText(t);
+    toast("已复制 " + t);
+  } catch {
+    let el = document.createElement("textarea");
+    el.value = t;
+    document.body.append(el);
+    el.select();
+    let ok = document.execCommand("copy");
+    el.remove();
+    toast(ok ? "已复制 " + t : "复制失败，请从输入框手动复制");
+  }
+}
+function ryb(h) {
+  const stops = [
+    [0, 0],
+    [60, 35],
+    [120, 60],
+    [180, 120],
+    [240, 240],
+    [300, 290],
+    [360, 360],
+  ];
+  for (let i = 1; i < stops.length; i++)
+    if (h <= stops[i][0])
+      return (
+        stops[i - 1][1] +
+        ((h - stops[i - 1][0]) / (stops[i][0] - stops[i - 1][0])) *
+          (stops[i][1] - stops[i - 1][1])
+      );
+  return h;
+}
+function unryb(h) {
+  let best = 0,
+    dist = 1e9;
+  for (let i = 0; i < 360; i++) {
+    let d = Math.abs(ryb(i) - h);
+    if (d < dist) {
+      dist = d;
+      best = i;
+    }
+  }
+  return best;
+}
+function wheelRgb(h, s, v) {
+  return state.model === "HSL"
+    ? hsl(h, s, v)
+    : state.model === "HSI"
+      ? hsi(h, s, v)
+      : hsv(state.model === "RYB" ? ryb(h) : h, s, v);
+}
+function syncCoordinates() {
+  let x =
+    state.model === "HSL"
+      ? rgbHsl(state.rgb)
+      : state.model === "HSI"
+        ? rgbHsi(state.rgb)
+        : rgbHsv(state.rgb);
+  [state.h, state.s, state.v] = x;
+  if (state.model === "RYB") state.h = unryb(state.h);
+}
+function drawWheel() {
+  const cv = $("#wheel"),
+    ctx = cv.getContext("2d"),
+    n = 600;
+  cv.width = cv.height = n;
+  let img = ctx.createImageData(n, n),
+    v = state.v;
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++) {
+      let dx = (x - n / 2) / (n / 2),
+        dy = (n / 2 - y) / (n / 2),
+        s = Math.hypot(dx, dy);
+      if (s > 1) continue;
+      let h = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360,
+        rgb = wheelRgb(h, s, v),
+        i = (y * n + x) * 4;
+      for (let j = 0; j < 3; j++) img.data[i + j] = clamp(rgb[j]) * 255;
+      img.data[i + 3] = 255;
+    }
+  ctx.putImageData(img, 0, 0);
+}
+function textColor(rgb) {
+  return lab(rgb)[0] > 0.7 ? "#263227" : "#ffffff";
+}
+
+function update(animate = false) {
+  $("#inputError").textContent = "";
+  $("#status").textContent = wheelRgb(state.h, state.s, state.v).some(
+    (v) => v < -0.0001 || v > 1.0001,
+  )
+    ? "● HSI 超出 sRGB，预览已裁切"
+    : "● sRGB COLOR SPACE";
+  let color = hex(state.rgb);
+  $("#colorInput").value = color;
+  $("#currentSwatch").style.background = color;
+  document.documentElement.style.setProperty("--accent", color);
+  $("#picker").style.left =
+    50 + 43 * state.s * Math.cos((state.h * Math.PI) / 180) + "%";
+  $("#picker").style.top =
+    50 - 43 * state.s * Math.sin((state.h * Math.PI) / 180) + "%";
+  $("#picker").style.background = color;
+  $("#wheel").setAttribute("aria-valuenow", Math.round(state.h));
+  $("#wheel").setAttribute(
+    "aria-valuetext",
+    color +
+      "，色相 " +
+      Math.round(state.h) +
+      "°，饱和度 " +
+      Math.round(state.s * 100) +
+      "%",
+  );
+  $("#level").value = state.v * 100;
+  $("#levelValue").textContent = Math.round(state.v * 100) + "%";
+  $("#level").style.background =
+    `linear-gradient(90deg,#181d19,${hex(wheelRgb(state.h, state.s, 1))})`;
+  $("#rangeLabel").textContent =
+    state.model === "HSL" ? "亮度" : state.model === "HSI" ? "强度" : "明度";
+  $("#favorite").textContent = favorites.includes(color) ? "★" : "☆";
+  $("#savedCount").textContent = favorites.length;
+  let vals = values(state.rgb);
+  $("#formats").replaceChildren(
+    ...["RGB", "HSL", "HSI", "OKLCH"].map((k) => {
+      let b = document.createElement("button");
+      b.textContent = vals[k];
+      b.title = "点击复制 " + k;
+      b.onclick = () => copy(vals[k]);
+      return b;
+    }),
+  );
+  if (drag) {
+    if (performance.now() - lastResultRender > 110) {
+      lastResultRender = performance.now();
+      renderResults(false);
+    }
+  } else {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(() => renderResults(animate), 0);
+  }
+}
+function renderResults(animate = true) {
+  let target = lab(state.rgb),
+    lib = $("#library").value,
+    seen = new Set();
+  results = database
+    .filter((c) => lib === "all" || c.lib === lib)
+    .map((c) => ({
+      ...c,
+      d: Math.hypot(...c.lab.map((x, i) => x - target[i])),
+    }))
+    .sort((a, b) => a.d - b.d)
+    .filter((c) => {
+      if (seen.has(c.hex)) return false;
+      seen.add(c.hex);
+      return true;
+    })
+    .slice(0, 5);
+  $("#results").innerHTML = results
+    .map(
+      (c, i) =>
+        `<article class="color-card" style="--i:${i};${animate ? "" : "animation:none"}"><div class="card-swatch" style="background:${c.hex};color:${textColor(c.rgb)}"><span class="card-index">0${i + 1}</span><button class="card-copy" data-copy="${i}" aria-label="复制 ${c.hex}">${c.hex} ⧉</button></div><button data-open="${i}" class="card-info" style="border:0;background:white;width:100%;text-align:left;cursor:pointer"><div><div class="card-title">${c.name}${c.cn ? `<small>${c.cn}</small>` : ""}</div><div class="card-meta">${c.hex} &nbsp; · &nbsp; ΔE OK ${(c.d * 100).toFixed(2)} &nbsp; · &nbsp; ${c.lib === "css" ? "CSS COLOR" : "中国传统色"}</div></div><span class="card-arrow">↗</span></button></article>`,
+    )
+    .join("");
+  document
+    .querySelectorAll("[data-copy]")
+    .forEach((b) => (b.onclick = () => copy(results[b.dataset.copy].hex)));
+  document
+    .querySelectorAll("[data-open]")
+    .forEach((b) => (b.onclick = () => openDetail(results[b.dataset.open])));
+  document.querySelectorAll(".card-swatch").forEach(
+    (el, i) =>
+      (el.onclick = (e) => {
+        if (!e.target.closest("button")) openDetail(results[i]);
+      }),
+  );
+}
+function openDetail(c) {
+  let vals = values(c.rgb),
+    v = values(state.rgb);
+  $("#detailContent").innerHTML =
+    `<div class="detail-hero" style="background:${c.hex};color:${textColor(c.rgb)}">${c.hex}</div><span class="eyebrow">COLOR NOTES / 色彩档案</span><h2 class="detail-name">${c.name}</h2><div class="detail-cn">${c.cn || "暂无中文名"}</div><p>${c.lib === "css" ? "CSS 标准命名色。中文名称为便于理解的参考译名，并非 CSS 标准定义。" : "中国传统色精选。英文为参考译名，传统色在不同资料与媒介中的色值可能不同。"}</p><div class="detail-values">${Object.entries(
+      vals,
+    )
+      .map(
+        ([k, v]) =>
+          `<button data-value="${k}">${k} &nbsp; ${v} &nbsp; ⧉</button>`,
+      )
+      .join(
+        "",
+      )}</div><span class="eyebrow">YOUR COLOR / NAMED COLOR</span><div class="compare" style="margin-top:10px"><span style="background:${v.HEX};color:${textColor(state.rgb)}">原色 ${v.HEX}</span><span style="background:${c.hex};color:${textColor(c.rgb)}">${c.hex}</span></div><p>感知色差 ΔE OK：${(c.d * 100).toFixed(2)}（Oklab 欧氏距离 × 100，越小越接近）。${Math.abs(c.lab[0] - lab(state.rgb)[0]) < 0.01 ? "两种颜色明度十分接近。" : c.lab[0] > lab(state.rgb)[0] ? "这个命名色比你选的颜色更明亮。" : "这个命名色比你选的颜色更深。"}<br>色名匹配基于当前色名库；没有完全对应时，展示最接近的候选。</p><a class="source-link" href="${c.lib === "css" ? "https://www.w3.org/TR/css-color-4/#named-colors" : "https://zhongguose.com/"}" target="_blank" rel="noopener">查看色名来源 ↗</a><button id="useColor" class="copy-main" style="float:right">以此色继续探索 ↗</button>`;
+  $("#detail").showModal();
+  document
+    .querySelectorAll("[data-value]")
+    .forEach((b) => (b.onclick = () => copy(vals[b.dataset.value])));
+  $("#useColor").onclick = () => {
+    state.rgb = c.rgb.slice();
+    syncCoordinates();
+    drawWheel();
+    update(true);
+    $("#detail").close();
+  };
+}
+function pick(e) {
+  const r = $("#wheel").getBoundingClientRect(),
+    x = (e.clientX - r.left - r.width / 2) / (r.width / 2),
+    y = (r.top + r.height / 2 - e.clientY) / (r.height / 2);
+  state.h = ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+  state.s = clamp(Math.hypot(x, y));
+  let raw = wheelRgb(state.h, state.s, state.v);
+  state.rgb = raw.map((v) => clamp(v));
+  $("#status").textContent = raw.some((v) => v < 0 || v > 1)
+    ? "● HSI 超出 sRGB，预览已裁切"
+    : "● sRGB COLOR SPACE";
+  update(false);
+}
+$("#wheel").onpointerdown = (e) => {
+  drag = true;
+  $("#wheel").setPointerCapture(e.pointerId);
+  pick(e);
+};
+$("#wheel").onpointermove = (e) => {
+  if (drag) {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => pick(e));
+  }
+};
+$("#wheel").onpointerup = (e) => {
+  cancelAnimationFrame(raf);
+  pick(e);
+  drag = false;
+  update(true);
+};
+$("#wheel").onpointercancel = () => {
+  drag = false;
+};
+$("#wheel").onkeydown = (e) => {
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key))
+    return;
+  e.preventDefault();
+  state.h =
+    (state.h +
+      (e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0) +
+      360) %
+    360;
+  state.s = clamp(
+    state.s + (e.key === "ArrowUp" ? 0.01 : e.key === "ArrowDown" ? -0.01 : 0),
+  );
+  state.rgb = wheelRgb(state.h, state.s, state.v).map((v) => clamp(v));
+  update(false);
+};
+$("#level").oninput = () => {
+  state.v = +$("#level").value / 100;
+  state.rgb = wheelRgb(state.h, state.s, state.v).map((v) => clamp(v));
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => {
+    drawWheel();
+    update(false);
+  });
+};
+$("#level").onchange = () => update(true);
+document.querySelectorAll("[data-model]").forEach(
+  (b) =>
+    (b.onclick = () => {
+      state.model = b.dataset.model;
+      document
+        .querySelectorAll("[data-model]")
+        .forEach((x) => x.classList.toggle("active", x === b));
+      $("#modelHint").textContent = {
+        HSV: "色相 · 饱和度 · 明度",
+        HSL: "色相 · 饱和度 · 亮度",
+        HSI: "色相 · 饱和度 · 强度 · 超色域会裁切",
+        RYB: "艺术家色环 · 红黄蓝色相映射",
+      }[state.model];
+      syncCoordinates();
+      drawWheel();
+      update(false);
+    }),
+);
+
+$("#colorInput").onkeydown = (e) => {
+  if (e.key === "Enter") {
+    try {
+      state.rgb = parseColor(e.target.value, toast);
+      $("#inputError").textContent = "";
+      syncCoordinates();
+      drawWheel();
+      update(true);
+    } catch (err) {
+      $("#inputError").textContent = err.message;
+    }
+  }
+};
+$("#copyCurrent").onclick = () => copy(hex(state.rgb));
+$("#library").onchange = () => renderResults(true);
+function saveFavorites() {
+  try {
+    localStorage.setItem("chroma-colors", JSON.stringify(favorites));
+  } catch {
+    toast("浏览器无法持久保存，收藏仅本次有效");
+  }
+  $("#savedCount").textContent = favorites.length;
+}
+$("#favorite").onclick = () => {
+  let c = hex(state.rgb);
+  if (favorites.includes(c)) {
+    favorites = favorites.filter((x) => x !== c);
+    toast("已取消收藏");
+  } else {
+    favorites.push(c);
+    toast("已收藏 " + c);
+  }
+  saveFavorites();
+  update(false);
+};
+function renderSaved() {
+  $("#savedList").replaceChildren();
+  if (!favorites.length) {
+    $("#savedList").innerHTML =
+      "<p>还没有收藏。点击色号右侧的 ☆，留下喜欢的颜色。</p>";
+    return;
+  }
+  favorites.forEach((c) => {
+    let row = document.createElement("div");
+    row.className = "saved-item";
+    let sw = document.createElement("i");
+    sw.style.background = c;
+    let b = document.createElement("button");
+    b.textContent = c + " ↗";
+    b.onclick = () => {
+      state.rgb = fromHex(c);
+      syncCoordinates();
+      drawWheel();
+      update(true);
+      $("#saved").close();
+    };
+    let cp = document.createElement("button");
+    cp.textContent = "复制";
+    cp.onclick = () => copy(c);
+    let rm = document.createElement("button");
+    rm.textContent = "移除";
+    rm.className = "remove";
+    rm.onclick = () => {
+      favorites = favorites.filter((x) => x !== c);
+      saveFavorites();
+      renderSaved();
+      update(false);
+    };
+    row.append(sw, b, cp, rm);
+    $("#savedList").append(row);
+  });
+}
+$("#savedBtn").onclick = () => {
+  renderSaved();
+  $("#saved").showModal();
+};
+$("#closeSaved").onclick = () => $("#saved").close();
+$("#closeDetail").onclick = () => $("#detail").close();
+document.querySelectorAll("dialog").forEach(
+  (d) =>
+    (d.onclick = (e) => {
+      if (e.target === d) {
+        const r = d.getBoundingClientRect();
+        if (
+          e.clientX < r.left ||
+          e.clientX > r.right ||
+          e.clientY < r.top ||
+          e.clientY > r.bottom
+        )
+          d.close();
+      }
+    }),
+);
+syncCoordinates();
+drawWheel();
+update(true);
