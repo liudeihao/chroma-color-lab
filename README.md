@@ -59,7 +59,7 @@ docker run -d --name chroma --restart unless-stopped -p 8080:80 chroma
 npm test
 ```
 
-不需要安装测试依赖。测试覆盖已知原色、HSV / HSL / HSI / Oklab 转换、125 组 RGB 样本、格式解析、非法输入、超色域、命名色精确匹配和服务器行为。GitHub Actions 会在 Windows / Linux、Node.js 20 / 22 上运行相同检查。
+不需要安装测试依赖。测试覆盖已知原色、HSV / HSL / HSI / Oklab 转换、125 组 RGB 样本、格式解析、非法输入、超色域、命名色精确匹配和服务器行为。CI 模板见 `ci/github-actions.yml`，覆盖 Windows / Linux、Node.js 20 / 22。需要启用时，将它复制到 `.github/workflows/ci.yml` 后提交（上传凭据需要 workflow 权限）。
 
 `dist/index.html` 使用 ES modules，请通过本地服务器访问，不要直接双击 HTML。
 
