@@ -173,7 +173,7 @@ let database = cssData.split(" ").map((v) => {
     lib: "css",
   };
 });
-// Traditional names use the published Chinese Colors digital palette; English labels are translations.
+// Curated traditional-color reference swatches; RGB values are not universal standards.
 database.push(
   ...[
     ["天青", "Sky Cyan", "2EC3E7"],
