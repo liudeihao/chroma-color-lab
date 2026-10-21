@@ -265,7 +265,7 @@ $("#wheel").onpointerup = (e) => {
   cancelAnimationFrame(raf);
   pick(e);
   drag = false;
-  update(true);
+  update(false);
 };
 $("#wheel").onpointercancel = () => {
   drag = false;
@@ -294,7 +294,7 @@ $("#level").oninput = () => {
     update(false);
   });
 };
-$("#level").onchange = () => update(true);
+$("#level").onchange = () => update(false);
 document.querySelectorAll("[data-model]").forEach(
   (b) =>
     (b.onclick = () => {
